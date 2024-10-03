@@ -25,6 +25,4 @@ public class ProductAccessory {
     @ManyToOne
     @JoinColumn(name = "accessory_id", nullable = false)
     private Accessory accessory;
-
-    // Constructors, Getters, and Setters
 }

@@ -33,8 +33,8 @@ public class Product {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id") // Reference to brand
-    private Brand brand; // Link to the brand of the product
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     @OneToMany(mappedBy = "product")
     private List<Specification> specifications;
@@ -42,21 +42,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Variant> variants;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_accessories",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "accessory_id")
-    )
-    private List<Accessory> accessories = new ArrayList<>(); // Initialize with ArrayList
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductAccessory> productAccessories = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
-
-    @OneToMany(mappedBy = "product")
-    private List<ProductAccessory> productAccessories = new ArrayList<>();
-
 }

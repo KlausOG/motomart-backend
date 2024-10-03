@@ -24,17 +24,12 @@ public class Accessory {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id") // Reference to brand
-    private Brand brand; // Link to the brand of the accessory
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     @Enumerated(EnumType.STRING)
-    private AccessoryCategory category; // Enum to represent accessory categories
+    private AccessoryCategory category;
 
-    @ManyToMany(mappedBy = "accessories")
-    private List<Product> products = new ArrayList<>(); // Accessory can be associated with multiple products
-
-    @OneToMany(mappedBy = "accessories")
+    @OneToMany(mappedBy = "accessory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductAccessory> productAccessories = new ArrayList<>();
-
-    // Other fields and methods...
 }
