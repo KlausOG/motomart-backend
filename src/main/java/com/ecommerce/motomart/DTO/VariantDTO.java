@@ -18,5 +18,6 @@ public class VariantDTO {
 
     private Long productId; // Assuming variant is linked to a product
 
+    private Double additionalPrice;
     // Getters and Setters
 }

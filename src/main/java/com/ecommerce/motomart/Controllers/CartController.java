@@ -1,8 +1,7 @@
 package com.ecommerce.motomart.Controllers;
 
-import com.ecommerce.motomart.Exceptions.CartNotFoundException;
-import com.ecommerce.motomart.Models.Cart;
-import com.ecommerce.motomart.Repositories.CartRepository;
+import com.ecommerce.motomart.DTO.CartDTO;
+import com.ecommerce.motomart.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,41 +13,34 @@ import java.util.List;
 public class CartController {
 
     @Autowired
-    private CartRepository cartRepository;
+    private CartService cartService;
 
     @GetMapping
-    public List<Cart> getAllCarts() {
-        return cartRepository.findAll();
+    public List<CartDTO> getAllCarts() {
+        return cartService.getAllCarts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCartById(@PathVariable Long id) {
-        return cartRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new CartNotFoundException(id));
+    public ResponseEntity<CartDTO> getCartById(@PathVariable Long id) {
+        CartDTO cartDTO = cartService.getCartById(id);
+        return ResponseEntity.ok(cartDTO);
     }
 
     @PostMapping
-    public Cart createCart(@RequestBody Cart cart) {
-        return cartRepository.save(cart);
+    public ResponseEntity<CartDTO> createCart(@RequestBody CartDTO cartDTO) {
+        CartDTO createdCart = cartService.createCart(cartDTO);
+        return ResponseEntity.status(201).body(createdCart); // Return 201 Created
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cart> updateCart(@PathVariable Long id, @RequestBody Cart cartDetails) {
-        return cartRepository.findById(id)
-                .map(cart -> {
-                    // Update cart details if needed
-                    return ResponseEntity.ok(cartRepository.save(cart));
-                })
-                .orElseThrow(() -> new CartNotFoundException(id));
+    public ResponseEntity<CartDTO> updateCart(@PathVariable Long id, @RequestBody CartDTO cartDTO) {
+        CartDTO updatedCart = cartService.updateCart(id, cartDTO);
+        return ResponseEntity.ok(updatedCart);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
-        if (!cartRepository.existsById(id)) {
-            throw new CartNotFoundException(id);
-        }
-        cartRepository.deleteById(id);
+        cartService.deleteCart(id);
         return ResponseEntity.noContent().build();
     }
 }

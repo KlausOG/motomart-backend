@@ -15,7 +15,7 @@ import java.util.Date;
 public class PaymentDTO {
     private Long id;
     private Long orderId; // Assuming payment is linked to an order
-    private BigDecimal amount;
+    private Double amount;
     private Date paymentDate;
 
     // Getters and Setters

@@ -1,8 +1,8 @@
 package com.ecommerce.motomart.Controllers;
 
+import com.ecommerce.motomart.DTO.ShowroomDTO;
 import com.ecommerce.motomart.Exceptions.ShowroomNotFoundException;
-import com.ecommerce.motomart.Models.Showroom;
-import com.ecommerce.motomart.Repositories.ShowroomRepository;
+import com.ecommerce.motomart.Services.ShowroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,41 +14,34 @@ import java.util.List;
 public class ShowroomController {
 
     @Autowired
-    private ShowroomRepository showroomRepository;
+    private ShowroomService showroomService;
 
     @GetMapping
-    public List<Showroom> getAllShowrooms() {
-        return showroomRepository.findAll();
+    public List<ShowroomDTO> getAllShowrooms() {
+        return showroomService.getAllShowrooms();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Showroom> getShowroomById(@PathVariable Long id) {
-        return showroomRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ShowroomNotFoundException(id));
+    public ResponseEntity<ShowroomDTO> getShowroomById(@PathVariable Long id) {
+        ShowroomDTO showroom = showroomService.getShowroomById(id);
+        return ResponseEntity.ok(showroom);
     }
 
     @PostMapping
-    public Showroom createShowroom(@RequestBody Showroom showroom) {
-        return showroomRepository.save(showroom);
+    public ResponseEntity<ShowroomDTO> createShowroom(@RequestBody ShowroomDTO showroomDTO) {
+        ShowroomDTO createdShowroom = showroomService.createShowroom(showroomDTO);
+        return ResponseEntity.status(201).body(createdShowroom); // Return 201 Created
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Showroom> updateShowroom(@PathVariable Long id, @RequestBody Showroom showroomDetails) {
-        return showroomRepository.findById(id)
-                .map(showroom -> {
-                    // Update showroom details if needed
-                    return ResponseEntity.ok(showroomRepository.save(showroom));
-                })
-                .orElseThrow(() -> new ShowroomNotFoundException(id));
+    public ResponseEntity<ShowroomDTO> updateShowroom(@PathVariable Long id, @RequestBody ShowroomDTO showroomDetails) {
+        ShowroomDTO updatedShowroom = showroomService.updateShowroom(id, showroomDetails);
+        return ResponseEntity.ok(updatedShowroom);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShowroom(@PathVariable Long id) {
-        if (!showroomRepository.existsById(id)) {
-            throw new ShowroomNotFoundException(id);
-        }
-        showroomRepository.deleteById(id);
+        showroomService.deleteShowroom(id);
         return ResponseEntity.noContent().build();
     }
 }

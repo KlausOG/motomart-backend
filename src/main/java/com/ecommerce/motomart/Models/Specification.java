@@ -1,6 +1,5 @@
 package com.ecommerce.motomart.Models;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +24,8 @@ public class Specification {
     private String specs;
     private String value;
 
+    // Additional attributes for category-specific specifications
+    private String categorySpecificInfo; // Optional, add as needed
+
     // Getters and Setters
 }
-

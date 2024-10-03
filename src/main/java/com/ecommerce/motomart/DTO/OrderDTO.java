@@ -17,7 +17,8 @@ public class OrderDTO {
     private Long id;
     private Long userId; // User placing the order
     private List<Long> productIds; // List of product IDs in the order
-    private BigDecimal totalAmount;
+    private Double totalAmount;
+    private String status;
     private Date orderDate;
 
     // Getters and Setters

@@ -11,10 +11,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class CartDTO {
     private Long id;
-    private Long userId; // Assuming Cart is associated with a User
-    private List<Long> productIds; // List of product IDs in the cart
-
-    // Getters and Setters
+    private Long userId;
+    private List<CartItemDTO> cartItems; // Assuming you have this DTO
 }

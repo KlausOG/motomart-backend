@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,18 @@ public class Accessory {
     private String name;
     private String description;
 
-    @ManyToMany(mappedBy = "accessories")
-    private List<Product> products;
+    @ManyToOne
+    @JoinColumn(name = "brand_id") // Reference to brand
+    private Brand brand; // Link to the brand of the accessory
 
-    // Getters and Setters
+    @Enumerated(EnumType.STRING)
+    private AccessoryCategory category; // Enum to represent accessory categories
+
+    @ManyToMany(mappedBy = "accessories")
+    private List<Product> products = new ArrayList<>(); // Accessory can be associated with multiple products
+
+    @OneToMany(mappedBy = "accessories")
+    private List<ProductAccessory> productAccessories = new ArrayList<>();
+
+    // Other fields and methods...
 }

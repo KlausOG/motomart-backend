@@ -1,8 +1,8 @@
 package com.ecommerce.motomart.Controllers;
 
+import com.ecommerce.motomart.DTO.ReviewDTO;
 import com.ecommerce.motomart.Exceptions.ReviewNotFoundException;
-import com.ecommerce.motomart.Models.Review;
-import com.ecommerce.motomart.Repositories.ReviewRepository;
+import com.ecommerce.motomart.Services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,41 +14,34 @@ import java.util.List;
 public class ReviewController {
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewService reviewService;
 
     @GetMapping
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
+    public List<ReviewDTO> getAllReviews() {
+        return reviewService.getAllReviews();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
-        return reviewRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ReviewNotFoundException(id));
+    public ResponseEntity<ReviewDTO> getReviewById(@PathVariable Long id) {
+        ReviewDTO review = reviewService.getReviewById(id);
+        return ResponseEntity.ok(review);
     }
 
     @PostMapping
-    public Review createReview(@RequestBody Review review) {
-        return reviewRepository.save(review);
+    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
+        ReviewDTO createdReview = reviewService.createReview(reviewDTO);
+        return ResponseEntity.status(201).body(createdReview); // Return 201 Created
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long id, @RequestBody Review reviewDetails) {
-        return reviewRepository.findById(id)
-                .map(review -> {
-                    // Update review details if needed
-                    return ResponseEntity.ok(reviewRepository.save(review));
-                })
-                .orElseThrow(() -> new ReviewNotFoundException(id));
+    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDetails) {
+        ReviewDTO updatedReview = reviewService.updateReview(id, reviewDetails);
+        return ResponseEntity.ok(updatedReview);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-        if (!reviewRepository.existsById(id)) {
-            throw new ReviewNotFoundException(id);
-        }
-        reviewRepository.deleteById(id);
+        reviewService.deleteReview(id);
         return ResponseEntity.noContent().build();
     }
 }

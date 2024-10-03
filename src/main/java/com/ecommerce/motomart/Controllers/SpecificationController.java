@@ -1,8 +1,8 @@
 package com.ecommerce.motomart.Controllers;
 
+import com.ecommerce.motomart.DTO.SpecificationDTO;
 import com.ecommerce.motomart.Exceptions.SpecificationNotFoundException;
-import com.ecommerce.motomart.Models.Specification;
-import com.ecommerce.motomart.Repositories.SpecificationRepository;
+import com.ecommerce.motomart.Services.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,42 +14,34 @@ import java.util.List;
 public class SpecificationController {
 
     @Autowired
-    private SpecificationRepository specificationRepository;
+    private SpecificationService specificationService;
 
     @GetMapping
-    public List<Specification> getAllSpecifications() {
-        return specificationRepository.findAll();
+    public List<SpecificationDTO> getAllSpecifications() {
+        return specificationService.getAllSpecifications();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Specification> getSpecificationById(@PathVariable Long id) {
-        return specificationRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new SpecificationNotFoundException(id));
+    public ResponseEntity<SpecificationDTO> getSpecificationById(@PathVariable Long id) {
+        SpecificationDTO specification = specificationService.getSpecificationById(id);
+        return ResponseEntity.ok(specification);
     }
 
     @PostMapping
-    public Specification createSpecification(@RequestBody Specification specification) {
-        return specificationRepository.save(specification);
+    public ResponseEntity<SpecificationDTO> createSpecification(@RequestBody SpecificationDTO specificationDTO) {
+        SpecificationDTO createdSpecification = specificationService.createSpecification(specificationDTO);
+        return ResponseEntity.status(201).body(createdSpecification); // Return 201 Created
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Specification> updateSpecification(@PathVariable Long id, @RequestBody Specification specificationDetails) {
-        return specificationRepository.findById(id)
-                .map(specification -> {
-                    specification.setSpecs(specificationDetails.getSpecs());
-                    specification.setValue(specificationDetails.getValue());
-                    return ResponseEntity.ok(specificationRepository.save(specification));
-                })
-                .orElseThrow(() -> new SpecificationNotFoundException(id));
+    public ResponseEntity<SpecificationDTO> updateSpecification(@PathVariable Long id, @RequestBody SpecificationDTO specificationDetails) {
+        SpecificationDTO updatedSpecification = specificationService.updateSpecification(id, specificationDetails);
+        return ResponseEntity.ok(updatedSpecification);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSpecification(@PathVariable Long id) {
-        if (!specificationRepository.existsById(id)) {
-            throw new SpecificationNotFoundException(id);
-        }
-        specificationRepository.deleteById(id);
+        specificationService.deleteSpecification(id);
         return ResponseEntity.noContent().build();
     }
 }

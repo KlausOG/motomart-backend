@@ -1,6 +1,5 @@
 package com.ecommerce.motomart.Models;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +23,9 @@ public class Variant {
 
     private String variantName;
     private Double additionalPrice;
+
+    // Additional attributes for category-specific variants
+    private String categorySpecificFeature; // Optional, add as needed
 
     // Getters and Setters
 }
