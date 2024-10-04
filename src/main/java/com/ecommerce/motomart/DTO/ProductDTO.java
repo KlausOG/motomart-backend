@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,5 +22,7 @@ public class ProductDTO {
 
     private Long showroomId; // Assuming Showroom is related by ID
 
-    // Getters and Setters
+    private String imageUrl; // New field for image URL
+
+    // Getters and Setters (if using Lombok, they're generated automatically)
 }

@@ -50,6 +50,7 @@ public class AccessoryService {
 
         accessory.setName(accessoryDTO.getName());
         accessory.setDescription(accessoryDTO.getDescription());
+        accessory.setImageUrl(accessoryDTO.getImageUrl()); // Update the image URL
 
         if (accessoryDTO.getCategory() != null) {
             accessory.setCategory(AccessoryCategory.valueOf(accessoryDTO.getCategory()));
@@ -95,7 +96,8 @@ public class AccessoryService {
                         .map(pa -> pa.getProduct().getProductId())
                         .collect(Collectors.toList()),
                 accessory.getCategory() != null ? accessory.getCategory().name() : null,
-                accessory.getBrand() != null ? accessory.getBrand().getBrandId() : null
+                accessory.getBrand() != null ? accessory.getBrand().getBrandId() : null,
+                accessory.getImageUrl() // Include the image URL
         );
     }
 
@@ -103,6 +105,7 @@ public class AccessoryService {
         Accessory accessory = new Accessory();
         accessory.setName(accessoryDTO.getName());
         accessory.setDescription(accessoryDTO.getDescription());
+        accessory.setImageUrl(accessoryDTO.getImageUrl()); // Set the image URL
 
         if (accessoryDTO.getCategory() != null) {
             accessory.setCategory(AccessoryCategory.valueOf(accessoryDTO.getCategory()));

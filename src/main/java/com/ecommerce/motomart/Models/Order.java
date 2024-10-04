@@ -1,6 +1,5 @@
 package com.ecommerce.motomart.Models;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +26,8 @@ public class Order {
     private String orderDate;
     private String status;
 
+    private String shippingAddress;
+
     @OneToOne(mappedBy = "order")
     private Payment payment;
 
@@ -35,4 +36,3 @@ public class Order {
 
     // Getters and Setters
 }
-

@@ -59,6 +59,7 @@ public class ProductService {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl()); // Update the image URL
 
         // Handle showroom association if needed
         if (productDTO.getShowroomId() != null) {
@@ -83,6 +84,7 @@ public class ProductService {
         productDTO.setName(product.getName());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
+        productDTO.setImageUrl(product.getImageUrl()); // Include image URL
 
         if (product.getShowroom() != null) {
             productDTO.setShowroomId(product.getShowroom().getShowroomId());
@@ -96,6 +98,8 @@ public class ProductService {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl()); // Set image URL
+
         return product;
     }
 }

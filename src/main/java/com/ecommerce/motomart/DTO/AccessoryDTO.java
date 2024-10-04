@@ -29,5 +29,7 @@ public class AccessoryDTO {
 
     @NotNull
     private Long brandId;
-    // Getters and Setters (if using Lombok, they're generated automatically)
+
+    // New field for image URL
+    private String imageUrl; // URL or path for the accessory image
 }

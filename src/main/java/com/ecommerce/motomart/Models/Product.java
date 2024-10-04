@@ -50,4 +50,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
+
+    // New field for product image
+    private String imageUrl; // URL of the product image
 }
