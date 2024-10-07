@@ -1,0 +1,133 @@
+USE motomart_management;
+
+-- 1. Brands
+INSERT INTO brands (name) VALUES
+('Bajaj'),
+('Yamaha'),
+('Hero'),
+('Honda'),
+('KTM');
+
+-- 2. Bike Categories
+INSERT INTO bike_categories (name) VALUES
+('Electric'),
+('Petrol'),
+('Hybrid');
+
+-- 3. Showrooms
+INSERT INTO showrooms (name, location) VALUES
+('City Center Showroom', '101 Main St, Delhi'),
+('Highway Showroom', '202 Highway Rd, Delhi'),
+('Tech Park Showroom', '303 Tech Rd, Gurgaon');
+
+-- 4. Users
+INSERT INTO users (username, email, password, role) VALUES
+('user1', 'user1@example.com', 'password123', 'User'),
+('user2', 'user2@example.com', 'password123', 'User'),
+('admin', 'admin@example.com', 'adminpass', 'Admin'),
+('user3', 'user3@example.com', 'password123', 'User'),
+('user4', 'user4@example.com', 'password123', 'User');
+
+-- 5. Admins
+INSERT INTO admins (user_id) VALUES
+(3);  -- Assuming admin has user_id 3
+
+-- 6. Bikes
+INSERT INTO bike (name, description, price, showroom_id, bike_category_id, brand_id, created_on, visit_count, body_style) VALUES
+('Bajaj Pulsar 150', 'A popular commuter bike known for its performance.', 120000.00, 1, 2, 1, '2023-09-15', 10, 'CRUISER'),
+('Yamaha YZF R15', 'A stylish sportbike with excellent handling.', 160000.00, 1, 2, 2, '2023-09-16', 15, 'SPORTS'),
+('Hero Splendor Plus', 'A reliable and fuel-efficient bike for daily use.', 65000.00, 2, 2, 3, '2023-09-17', 20, 'SCOOTY'),
+('Honda CB Shine', 'A comfortable bike with great mileage.', 75000.00, 2, 2, 4, '2023-09-18', 5, 'STREET'),
+('KTM Duke 390', 'A powerful naked bike with aggressive styling.', 250000.00, 3, 2, 5, '2023-09-19', 8, 'SUPER');
+
+-- 7. Accessories
+INSERT INTO accessories (name, description, brand_id, category, price, created_on, visit_count) VALUES
+('Helmet', 'Safety helmet for biking.', 1, 'HELMETS_AND_COMBOS', 1500.00, '2023-09-15', 25),
+('Jacket', 'Protective riding jacket.', 2, 'RIDING_GEARS', 2500.00, '2023-08-20', 15),
+('Gloves', 'Comfortable riding gloves.', 3, 'RIDING_GEARS', 800.00, '2023-07-10', 30),
+('Saddle Bag', 'Spacious saddle bag for long rides.', 4, 'LUGGAGE_AND_TOURING', 3000.00, '2023-06-25', 10),
+('GPS Tracker', 'Track your bike\'s location.', 5, 'BIKE_PARTS', 5000.00, '2023-05-30', 20);
+
+-- 8. Carts
+INSERT INTO carts (user_id) VALUES
+(1), -- user1
+(2), -- user2
+(3), -- admin
+(4), -- user3
+(5); -- user4
+
+-- 9. Cart Items
+INSERT INTO cart_items (cart_id, bike_id, quantity) VALUES
+(1, 1, 1), -- user1 adds Bajaj Pulsar 150
+(1, 2, 1), -- user1 adds Yamaha YZF R15
+(2, 3, 1), -- user2 adds Hero Splendor Plus
+(3, 4, 1), -- admin adds Honda CB Shine
+(4, 5, 1); -- user3 adds KTM Duke 390
+
+-- 10. Orders (Remove payment_method)
+INSERT INTO orders (user_id, order_date, status, shipping_address) VALUES
+(1, '2023-10-01', 'Completed', '123 Elm St, Delhi'), -- User 1
+(2, '2023-10-02', 'Pending', '456 Oak St, Delhi'), -- User 2
+(1, '2023-10-03', 'Shipped', '789 Pine St, Delhi'), -- User 1
+(4, '2023-10-04', 'Completed', '321 Maple St, Delhi'), -- User 3
+(5, '2023-10-05', 'Pending', '654 Cedar St, Delhi'); -- User 4
+
+-- 11. Order Items
+INSERT INTO order_items (order_id, bike_id, quantity, price_at_purchase) VALUES
+(1, 1, 1, 120000.00), -- Bajaj Pulsar 150 for User 1
+(1, 2, 1, 160000.00), -- Yamaha YZF R15 for User 1
+(2, 3, 1, 65000.00), -- Hero Splendor Plus for User 2
+(3, 4, 1, 75000.00), -- Honda CB Shine for User 1
+(4, 5, 1, 250000.00); -- KTM Duke 390 for User 3
+
+-- 12. Specifications
+INSERT INTO specifications (bike_id, specs, value) VALUES
+(1, 'Engine', '149.5cc'),
+(1, 'Mileage', '50 km/l'),
+(2, 'Engine', '155cc'),
+(2, 'Top Speed', '136 km/h'),
+(3, 'Engine', '97.2cc'),
+(3, 'Mileage', '60 km/l'),
+(4, 'Engine', '124.7cc'),
+(4, 'Mileage', '55 km/l'),
+(5, 'Engine', '373.2cc'),
+(5, 'Power', '43.5 hp');
+
+-- 13. Variants
+INSERT INTO variants (bike_id, variant_name, additional_price) VALUES
+(1, 'Red', 500.00),
+(1, 'Black', 500.00),
+(2, 'Racing Blue', 1000.00),
+(2, 'Dark Night', 1000.00),
+(3, 'Standard', 0.00),
+(4, 'Disc Brake', 3000.00),
+(5, 'White', 0.00);
+
+-- 14. Payments (Store payment method here)
+INSERT INTO payments (order_id, amount, payment_date, payment_method) VALUES
+(1, 280000.00, '2023-10-01', 'Credit Card'),
+(2, 65000.00, '2023-10-02', 'Debit Card'),
+(3, 75000.00, '2023-10-03', 'Net Banking'),
+(4, 250000.00, '2023-10-04', 'Credit Card'),
+(5, 5000.00, '2023-10-05', 'Cash on Delivery');
+
+-- 15. Reviews
+INSERT INTO reviews (user_id, bike_id, rating, comment, review_date) VALUES
+(1, 1, 5, 'Amazing performance and style!', '2023-10-01'),
+(2, 2, 4, 'Great bike, but a bit pricey.', '2023-10-02'),
+(1, 3, 5, 'Best bike for daily commuting!', '2023-10-03'),
+(4, 4, 4, 'Comfortable ride and good mileage.', '2023-10-04'),
+(5, 5, 5, 'Incredible power and handling!', '2023-10-05');
+
+-- 16. Bike Accessories (Junction Table Entries)
+INSERT INTO product_accessories (bike_id, accessory_id) VALUES
+(1, 1), -- Bajaj Pulsar 150 with Helmet
+(1, 2), -- Bajaj Pulsar 150 with Jacket
+(2, 1), -- Yamaha YZF R15 with Helmet
+(3, 3), -- Hero Splendor Plus with Gloves
+(4, 4), -- Honda CB Shine with Saddle Bag
+(5, 1), -- KTM Duke 390 with Helmet
+(5, 5); -- KTM Duke 390 with GPS Tracker
+
+
+select * from orders;
