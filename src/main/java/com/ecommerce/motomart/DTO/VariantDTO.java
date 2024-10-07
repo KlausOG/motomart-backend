@@ -16,7 +16,7 @@ public class VariantDTO {
     @NotBlank
     private String name;
 
-    private Long productId; // Assuming variant is linked to a product
+    private Long bikeId; // Assuming variant is linked to a product
 
     private Double additionalPrice;
     // Getters and Setters

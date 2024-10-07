@@ -22,7 +22,7 @@ public class Brand {
     private String name; // Name of the brand (e.g., "Brand A", "Brand B")
 
     @OneToMany(mappedBy = "brand")
-    private List<Product> products; // Products associated with this brand
+    private List<Bike> bikes; // Products associated with this brand
 
     @OneToMany(mappedBy = "brand")
     private List<Accessory> accessories; // Accessories associated with this brand

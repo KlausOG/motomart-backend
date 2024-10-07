@@ -8,46 +8,46 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4202")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/carts")
 public class CartController {
 
-
     @Autowired
     private CartService cartService;
 
-    @CrossOrigin(origins = "http://localhost:4202")
+    // Get all carts
     @GetMapping
-    public List<CartDTO> getAllCarts() {
-        return cartService.getAllCarts();
+    public ResponseEntity<List<CartDTO>> getAllCarts() {
+        List<CartDTO> carts = cartService.getAllCarts();
+        return ResponseEntity.ok(carts);
     }
 
-    @CrossOrigin(origins = "http://localhost:4202")
+    // Get cart by ID
     @GetMapping("/{id}")
     public ResponseEntity<CartDTO> getCartById(@PathVariable Long id) {
         CartDTO cartDTO = cartService.getCartById(id);
         return ResponseEntity.ok(cartDTO);
     }
 
-    @CrossOrigin(origins = "http://localhost:4202")
+    // Create a new cart
     @PostMapping
     public ResponseEntity<CartDTO> createCart(@RequestBody CartDTO cartDTO) {
         CartDTO createdCart = cartService.createCart(cartDTO);
         return ResponseEntity.status(201).body(createdCart); // Return 201 Created
     }
 
-    @CrossOrigin(origins = "http://localhost:4202")
+    // Update an existing cart
     @PutMapping("/{id}")
     public ResponseEntity<CartDTO> updateCart(@PathVariable Long id, @RequestBody CartDTO cartDTO) {
         CartDTO updatedCart = cartService.updateCart(id, cartDTO);
         return ResponseEntity.ok(updatedCart);
     }
 
-    @CrossOrigin(origins = "http://localhost:4202")
+    // Delete a cart
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
         cartService.deleteCart(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // Return 204 No Content
     }
 }

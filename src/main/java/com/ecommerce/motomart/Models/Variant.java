@@ -18,8 +18,8 @@ public class Variant {
     private Long variantId;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "bike_id")
+    private Bike bike;
 
     private String variantName;
     private Double additionalPrice;

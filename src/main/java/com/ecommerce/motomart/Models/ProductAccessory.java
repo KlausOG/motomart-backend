@@ -19,8 +19,8 @@ public class ProductAccessory {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "bike_id", nullable = false)
+    private Bike bike;
 
     @ManyToOne
     @JoinColumn(name = "accessory_id", nullable = false)

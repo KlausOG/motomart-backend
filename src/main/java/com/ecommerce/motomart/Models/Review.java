@@ -22,8 +22,8 @@ public class Review {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "bike_id")
+    private Bike bike;
 
     private Integer rating;
     private String comment;

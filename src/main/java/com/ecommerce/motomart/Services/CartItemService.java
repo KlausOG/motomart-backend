@@ -4,10 +4,10 @@ import com.ecommerce.motomart.DTO.CartItemDTO;
 import com.ecommerce.motomart.Exceptions.CartItemNotFoundException;
 import com.ecommerce.motomart.Models.CartItem;
 import com.ecommerce.motomart.Models.Cart;
-import com.ecommerce.motomart.Models.Product;
+import com.ecommerce.motomart.Models.Bike;
 import com.ecommerce.motomart.Repositories.CartItemRepository;
 import com.ecommerce.motomart.Repositories.CartRepository;
-import com.ecommerce.motomart.Repositories.ProductRepository;
+import com.ecommerce.motomart.Repositories.BikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class CartItemService {
     private CartRepository cartRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private BikeRepository bikeRepository;
 
     public List<CartItemDTO> getAllCartItems() {
         return cartItemRepository.findAll().stream()
@@ -49,7 +49,7 @@ public class CartItemService {
 
         // Update fields as needed
         cartItem.setQuantity(cartItemDTO.getQuantity());
-        // Set the product as needed, assuming you handle fetching the product
+        // Set the Bike as needed, assuming you handle fetching the Bike
 
         return convertToDTO(cartItemRepository.save(cartItem));
     }
@@ -64,7 +64,7 @@ public class CartItemService {
     private CartItemDTO convertToDTO(CartItem cartItem) {
         return new CartItemDTO(
                 cartItem.getCartItemId(),
-                cartItem.getProduct().getProductId(), // Assuming you have a productId field in CartItemDTO
+                cartItem.getBike().getBikeId(), // Assuming you have a BikeId field in CartItemDTO
                 cartItem.getQuantity()
         );
     }
@@ -72,12 +72,12 @@ public class CartItemService {
     private CartItem convertToEntity(CartItemDTO cartItemDTO) {
         CartItem cartItem = new CartItem();
 
-        // Fetch the product using the productId from the DTO
-        Product product = productRepository.findById(cartItemDTO.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        // Fetch the Bike using the BikeId from the DTO
+        Bike bike = bikeRepository.findById(cartItemDTO.getBikeId())
+                .orElseThrow(() -> new RuntimeException("Bike not found"));
 
-        // Set the product and quantity in the CartItem
-        cartItem.setProduct(product);
+        // Set the Bike and quantity in the CartItem
+        cartItem.setBike(bike);
         cartItem.setQuantity(cartItemDTO.getQuantity());
 
         return cartItem;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4202")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/brands")
 public class BrandController {
@@ -16,20 +16,17 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-    @CrossOrigin(origins = "http://localhost:4202")
     @GetMapping
     public List<BrandDTO> getAllBrands() {
         return brandService.getAllBrands();
     }
 
-    @CrossOrigin(origins = "http://localhost:4202")
     @GetMapping("/{id}")
     public ResponseEntity<BrandDTO> getBrandById(@PathVariable Long id) {
         BrandDTO brandDTO = brandService.getBrandById(id);
         return ResponseEntity.ok(brandDTO);
     }
 
-    @CrossOrigin(origins = "http://localhost:4202")
     @PostMapping
     public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandDTO brandDTO) {
         BrandDTO createdBrand = brandService.createBrand(brandDTO);
@@ -44,7 +41,6 @@ public class BrandController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4202")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
         brandService.deleteBrand(id);

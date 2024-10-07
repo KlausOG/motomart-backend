@@ -18,7 +18,7 @@ public class ReviewDTO {
 
     private Integer rating; // Assuming rating is an integer value
 
-    private Long productId; // Assuming review is linked to a product
+    private Long bikeId; // Assuming review is linked to a product
 
     // Getters and Setters
 }

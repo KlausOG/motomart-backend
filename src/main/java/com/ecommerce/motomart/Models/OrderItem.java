@@ -22,8 +22,8 @@ public class OrderItem {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "bike_id")
+    private Bike bike;
 
     private Integer quantity;
     private Double priceAtPurchase;

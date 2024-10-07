@@ -1,6 +1,5 @@
 package com.ecommerce.motomart.Models;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,10 +22,10 @@ public class CartItem {
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "bike_id")
+    private Bike bike;
 
     private Integer quantity;
 
-    // Getters and Setters
+    // Getters and Setters are handled by Lombok
 }

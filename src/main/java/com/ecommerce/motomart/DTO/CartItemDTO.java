@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CartItemDTO {
     private Long cartItemId;
-    private Long productId; // Assuming each cart item is linked to a product
+    private Long bikeId; // Assuming each cart item is linked to a product
     private Integer quantity;
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class BikeCategoryDTO {
     private Long categoryId;
 
     @NotBlank

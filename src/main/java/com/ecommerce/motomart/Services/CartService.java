@@ -44,14 +44,14 @@ public class CartService {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new CartNotFoundException(id));
 
-        // Update the user based on the userId provided in the DTO
+        // Update user
         if (cartDTO.getUserId() != null) {
             User user = userRepository.findById(cartDTO.getUserId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
             cart.setUser(user);
         }
 
-        // If you want to update cart items, handle that here
+        // Update cart items
         if (cartDTO.getCartItems() != null) {
             List<CartItem> updatedCartItems = cartDTO.getCartItems().stream()
                     .map(this::convertToEntity) // Convert each CartItemDTO to CartItem
@@ -62,7 +62,6 @@ public class CartService {
         // Save the updated cart
         return convertToDTO(cartRepository.save(cart));
     }
-
 
     public void deleteCart(Long id) {
         if (!cartRepository.existsById(id)) {
@@ -75,29 +74,33 @@ public class CartService {
         return new CartDTO(
                 cart.getCartId(),
                 cart.getUser() != null ? cart.getUser().getUserId() : null,
-                cart.getCartItems().stream().map(this::convertCartItemToDTO).collect(Collectors.toList())
+                cart.getCartItems().stream().map(this::convertCartItemToDTO).collect(Collectors.toList()),
+                null, // Assuming shipping address is not part of Cart
+                null  // Assuming payment method is not part of Cart
         );
     }
 
     private Cart convertToEntity(CartDTO cartDTO) {
         Cart cart = new Cart();
-        // Fetch user based on userId if necessary
-        // cart.setUser(userRepository.findById(cartDTO.getUserId()).orElseThrow(() -> new RuntimeException("User not found")));
+        if (cartDTO.getUserId() != null) {
+            User user = userRepository.findById(cartDTO.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            cart.setUser(user);
+        }
         return cart;
     }
 
     private CartItemDTO convertCartItemToDTO(CartItem cartItem) {
         return new CartItemDTO(
                 cartItem.getCartItemId(),
-                cartItem.getProduct().getProductId(), // Assuming you have a productId field in CartItemDTO
+                cartItem.getBike() != null ? cartItem.getBike().getBikeId() : null, // Handle null Bike case
                 cartItem.getQuantity()
         );
     }
 
     private CartItem convertToEntity(CartItemDTO cartItemDTO) {
         CartItem cartItem = new CartItem();
-        // Fetch user based on userId if necessary
-        // cart.setUser(userRepository.findById(cartDTO.getUserId()).orElseThrow(() -> new RuntimeException("User not found")));
+        // You might want to set the bike here if you have a bikeId in DTO
         return cartItem;
     }
 }

@@ -18,8 +18,8 @@ public class Specification {
     private Long specificationId;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "bike_id")
+    private Bike bike;
 
     private String specs;
     private String value;

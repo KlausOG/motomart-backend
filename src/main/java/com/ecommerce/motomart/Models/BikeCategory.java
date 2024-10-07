@@ -13,16 +13,16 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "categories")
-public class Category {
+@Table(name = "bike_categories")
+public class BikeCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
     private String name; // E.g., "Electric", "Petrol", "Hybrid"
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products; // List of products associated with this category
+    @OneToMany(mappedBy = "bikeCategory")
+    private List<Bike> bikes; // List of products associated with this category
 
     // Additional attributes as needed
 }

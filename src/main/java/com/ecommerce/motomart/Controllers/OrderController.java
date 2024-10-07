@@ -1,5 +1,6 @@
 package com.ecommerce.motomart.Controllers;
 
+import com.ecommerce.motomart.DTO.CartDTO; // Import CartDTO
 import com.ecommerce.motomart.DTO.OrderDTO;
 import com.ecommerce.motomart.Exceptions.OrderNotFoundException;
 import com.ecommerce.motomart.Services.OrderService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -30,6 +32,13 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
         OrderDTO createdOrder = orderService.createOrder(orderDTO);
+        return ResponseEntity.status(201).body(createdOrder); // Return 201 Created
+    }
+
+    // New endpoint to create an order from a cart
+    @PostMapping("/from-cart")
+    public ResponseEntity<OrderDTO> createOrderFromCart(@RequestBody CartDTO cartDTO) {
+        OrderDTO createdOrder = orderService.createOrderFromCart(cartDTO);
         return ResponseEntity.status(201).body(createdOrder); // Return 201 Created
     }
 

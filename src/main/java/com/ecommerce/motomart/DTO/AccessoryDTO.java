@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -14,22 +15,28 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccessoryDTO {
-    private Long accessoryId; // Changed from 'id' to 'accessoryId'
+    private Long accessoryId; // ID of the accessory
 
-    @NotBlank
-    private String name;
+    @NotBlank(message = "Name is mandatory")
+    private String name; // Accessory name
 
-    private String description;
+    private String description; // Accessory description
 
-    @NotNull // Assuming that an accessory must belong to a product
-    private List<Long> productIds; // Link to the product
+    @NotNull(message = "Bike IDs cannot be null")
+    private List<Long> bikeIds; // List of associated bike IDs
 
-    @NotNull // Ensure that category is specified
-    private String category; // New field for category (you might want to use an enum as well)
+    @NotNull(message = "Category is mandatory")
+    private String category; // Category of the accessory
 
-    @NotNull
-    private Long brandId;
+    @NotNull(message = "Brand ID is mandatory")
+    private Long brandId; // ID of the associated brand
 
-    // New field for image URL
     private String imageUrl; // URL or path for the accessory image
+
+    @NotNull(message = "Price is mandatory")
+    private Double price; // Price of the accessory
+
+    private Date createdOn; // Date when the accessory was created
+
+    private Long visitCount; // Visit count for tracking popularity
 }

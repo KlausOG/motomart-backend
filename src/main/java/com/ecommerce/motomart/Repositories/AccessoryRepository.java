@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccessoryRepository extends JpaRepository<Accessory, Long> {
     // Custom query methods can be added here
+
 }
 

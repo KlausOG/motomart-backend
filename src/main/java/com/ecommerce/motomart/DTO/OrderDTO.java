@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +14,25 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
     private Long id;
-    private Long userId; // User placing the order
-    private List<Long> productIds; // List of product IDs in the order
+    private Long userId;
+    private List<Long> bikeIds;
     private Double totalAmount;
     private String status;
     private Date orderDate;
+    private String shippingAddress;
+    private String paymentMethod;
 
-    // Getters and Setters
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", bikeIds=" + bikeIds +
+                ", totalAmount=" + totalAmount +
+                ", status='" + status + '\'' +
+                ", orderDate=" + orderDate +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +  // Added paymentMethod here
+                '}';
+    }
 }

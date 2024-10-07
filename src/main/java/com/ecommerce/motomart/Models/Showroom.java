@@ -23,7 +23,7 @@ public class Showroom {
     private String location;
 
     @OneToMany(mappedBy = "showroom")
-    private List<Product> products;
+    private List<Bike> bikes;
 
     // Getters and Setters
 }

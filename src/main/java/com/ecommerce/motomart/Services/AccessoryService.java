@@ -2,11 +2,7 @@ package com.ecommerce.motomart.Services;
 
 import com.ecommerce.motomart.DTO.AccessoryDTO;
 import com.ecommerce.motomart.Exceptions.AccessoryNotFoundException;
-import com.ecommerce.motomart.Models.Accessory;
-import com.ecommerce.motomart.Models.AccessoryCategory;
-import com.ecommerce.motomart.Models.Brand;
-import com.ecommerce.motomart.Models.Product;
-import com.ecommerce.motomart.Models.ProductAccessory;
+import com.ecommerce.motomart.Models.*;
 import com.ecommerce.motomart.Repositories.AccessoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +18,7 @@ public class AccessoryService {
     private AccessoryRepository accessoryRepository;
 
     @Autowired
-    private ProductService productService;
+    private BikeService bikeService;
 
     @Autowired
     private BrandService brandService;
@@ -36,36 +32,39 @@ public class AccessoryService {
     public AccessoryDTO getAccessoryById(Long id) {
         Accessory accessory = accessoryRepository.findById(id)
                 .orElseThrow(() -> new AccessoryNotFoundException(id));
+        incrementVisitCount(accessory); // Increment visit count when accessed
         return convertToDTO(accessory);
     }
 
     public AccessoryDTO createAccessory(AccessoryDTO accessoryDTO) {
         Accessory accessory = convertToEntity(accessoryDTO);
-        return convertToDTO(accessoryRepository.save(accessory));
+        return convertToDTO(accessoryRepository.save(accessory)); // Save and convert to DTO
     }
 
     public AccessoryDTO updateAccessory(Long id, AccessoryDTO accessoryDTO) {
         Accessory accessory = accessoryRepository.findById(id)
                 .orElseThrow(() -> new AccessoryNotFoundException(id));
 
+        // Update accessory fields
         accessory.setName(accessoryDTO.getName());
         accessory.setDescription(accessoryDTO.getDescription());
-        accessory.setImageUrl(accessoryDTO.getImageUrl()); // Update the image URL
+        accessory.setImageUrl(accessoryDTO.getImageUrl());
+        accessory.setPrice(accessoryDTO.getPrice());
 
         if (accessoryDTO.getCategory() != null) {
             accessory.setCategory(AccessoryCategory.valueOf(accessoryDTO.getCategory()));
         }
 
-        // Clear existing product associations
+        // Clear existing Bike associations
         accessory.getProductAccessories().clear();
 
-        // Add new product associations
-        if (accessoryDTO.getProductIds() != null) {
-            for (Long productId : accessoryDTO.getProductIds()) {
-                Product product = productService.findById(productId);
-                if (product != null) {
+        // Add new Bike associations
+        if (accessoryDTO.getBikeIds() != null) {
+            for (Long bikeId : accessoryDTO.getBikeIds()) {
+                Bike bike = bikeService.findById(bikeId);
+                if (bike != null) {
                     ProductAccessory productAccessory = new ProductAccessory();
-                    productAccessory.setProduct(product);
+                    productAccessory.setBike(bike);
                     productAccessory.setAccessory(accessory);
                     accessory.getProductAccessories().add(productAccessory);
                 }
@@ -77,7 +76,7 @@ public class AccessoryService {
             accessory.setBrand(brand);
         }
 
-        return convertToDTO(accessoryRepository.save(accessory));
+        return convertToDTO(accessoryRepository.save(accessory)); // Save and convert to DTO
     }
 
     public void deleteAccessory(Long id) {
@@ -87,17 +86,25 @@ public class AccessoryService {
         accessoryRepository.deleteById(id);
     }
 
+    private void incrementVisitCount(Accessory accessory) {
+        accessory.incrementVisitCount(); // Increment visit count
+        accessoryRepository.save(accessory); // Save the updated accessory
+    }
+
     private AccessoryDTO convertToDTO(Accessory accessory) {
         return new AccessoryDTO(
                 accessory.getAccessoryId(),
                 accessory.getName(),
                 accessory.getDescription(),
                 accessory.getProductAccessories().stream()
-                        .map(pa -> pa.getProduct().getProductId())
+                        .map(pa -> pa.getBike().getBikeId())
                         .collect(Collectors.toList()),
                 accessory.getCategory() != null ? accessory.getCategory().name() : null,
                 accessory.getBrand() != null ? accessory.getBrand().getBrandId() : null,
-                accessory.getImageUrl() // Include the image URL
+                accessory.getImageUrl(),
+                accessory.getPrice(),
+                accessory.getCreatedOn(),
+                accessory.getVisitCount() // Include the visit count
         );
     }
 
@@ -105,7 +112,8 @@ public class AccessoryService {
         Accessory accessory = new Accessory();
         accessory.setName(accessoryDTO.getName());
         accessory.setDescription(accessoryDTO.getDescription());
-        accessory.setImageUrl(accessoryDTO.getImageUrl()); // Set the image URL
+        accessory.setImageUrl(accessoryDTO.getImageUrl());
+        accessory.setPrice(accessoryDTO.getPrice());
 
         if (accessoryDTO.getCategory() != null) {
             accessory.setCategory(AccessoryCategory.valueOf(accessoryDTO.getCategory()));
@@ -118,7 +126,7 @@ public class AccessoryService {
             accessory.setBrand(brand);
         }
 
-        accessory.setProductAccessories(new ArrayList<>()); // Initialize productAccessories list
+        accessory.setProductAccessories(new ArrayList<>()); // Initialize ProductAccessories list
 
         return accessory;
     }

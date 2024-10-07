@@ -18,7 +18,7 @@ public class SpecificationDTO {
 
     private String value;
 
-    private Long productId; // Assuming specification is linked to a product
+    private Long bikeId; // Assuming specification is linked to a product
 
     // Getters and Setters
 }
