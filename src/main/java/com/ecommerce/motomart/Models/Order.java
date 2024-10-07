@@ -20,7 +20,7 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private String orderDate;
@@ -28,11 +28,25 @@ public class Order {
 
     private String shippingAddress;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    // Getters and Setters
+    private Double totalAmount;
+
+    // Updated toString method to include payment method from Payment entity
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", user=" + user +
+                ", orderDate='" + orderDate + '\'' +
+                ", status='" + status + '\'' +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", paymentMethod='" + (payment != null ? payment.getPaymentMethod() : "N/A") + '\'' +
+                ", orderItems=" + orderItems +
+                '}';
+    }
 }
